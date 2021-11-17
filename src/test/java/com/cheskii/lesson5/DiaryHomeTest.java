@@ -82,7 +82,7 @@ public class DiaryHomeTest {
 
     static void login(WebDriver driver) {
         driver.get("https://diary.ru/");
-        Cookie cookie = new Cookie("_identity_", "9f44bed173f03329d0ccc70ee549702481f104486aedef2e3c9e0f47d060072da%3A2%3A%7Bi%3A0%3Bs%3A10%3A%22_identity_%22%3Bi%3A1%3Bs%3A48%3A%22%5B3558806%2C%22W-5Z9KxBlvPMz88QsEhRRwxAT7yJlOGP%22%2C900%5D%22%3B%7D");
+        Cookie cookie = new Cookie("_identity_", "57987af32af0bacbee7107d174279b935e04066d40fab61b6748d497b7df9733a%3A2%3A%7Bi%3A0%3Bs%3A10%3A%22_identity_%22%3Bi%3A1%3Bs%3A52%3A%22%5B3558806%2C%22W-5Z9KxBlvPMz88QsEhRRwxAT7yJlOGP%22%2C2592000%5D%22%3B%7D");
         driver.manage().addCookie(cookie);
         driver.navigate().refresh();
     }

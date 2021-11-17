@@ -1,5 +1,6 @@
 package com.cheskii.lesson6;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +15,7 @@ public class CreateContractorPage extends BaseView{
     @FindBy(name = "crm_contact[lastName]")
     private WebElement lastName;
 
+    @Step("Заполнение поля 'Фамилия'")
     public CreateContractorPage fillLastName(String name) {
         lastName.sendKeys(name);
         return this;
@@ -22,6 +24,7 @@ public class CreateContractorPage extends BaseView{
     @FindBy(name = "crm_contact[firstName]")
     private WebElement firstName;
 
+    @Step("Заполнение поля 'Имя'")
     public CreateContractorPage fillFirstName(String name) {
         firstName.sendKeys(name);
         return this;
@@ -31,6 +34,7 @@ public class CreateContractorPage extends BaseView{
     @FindBy(xpath = "//span[.='Укажите организацию']")
     private WebElement organizationLocator;
 
+    @Step("Клик на выпадающее меню 'Укажите организацию'")
     public CreateContractorPage touchOrganization() {
         organizationLocator.click();
         webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(organizationItemLocator)));
@@ -40,6 +44,7 @@ public class CreateContractorPage extends BaseView{
     @FindBy(xpath = organizationItemLocator)
     private WebElement organizationItem;
 
+    @Step("Клик на указанную организацию")
     public CreateContractorPage fillOrganization(){
         organizationItem.click();
         return this;
@@ -48,6 +53,7 @@ public class CreateContractorPage extends BaseView{
     @FindBy(name = "crm_contact[jobTitle]")
     private WebElement jobTitle;
 
+    @Step("Заполнение поля 'Должность'")
     public CreateContractorPage fillJobTitle(String title) {
         jobTitle.sendKeys(title);
         return this;
@@ -57,6 +63,7 @@ public class CreateContractorPage extends BaseView{
     @FindBy(xpath = byXpathSaveAndCloseButtonLocator)
     private WebElement saveAndCloseButton;
 
+    @Step("Клик на кнопку 'Сохранить и закрыть'")
     public CreateContractorPage clickSaveAndCloseButton() {
         saveAndCloseButton.click();
         return this;

@@ -34,7 +34,7 @@ public class CrmHomeTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"sometest12114"})
+    @CsvSource({"sometest1711"})
     void createProjectTest(String projectName) {
         driver.get("https://crm.geekbrains.space/");
         List<WebElement> menuItems = driver.findElements(By.xpath("//ul[@class='nav nav-multilevel main-menu']/li/a"));

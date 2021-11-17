@@ -1,5 +1,6 @@
 package com.cheskii.lesson6;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,6 +16,7 @@ public class ProjectsPage extends BaseView{
     @FindBy(xpath = byXpathButtonCreateProjectRequestLocator)
     private WebElement buttonCreateProjectRequest;
 
+    @Step("Клик на кнопку созданя проекта")
     public CreateProjectPage clickCreateProjectRequest() {
         webDriverWait.until(ExpectedConditions.visibilityOf(loader));
         webDriverWait.until(ExpectedConditions.invisibilityOf(loader));

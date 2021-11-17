@@ -1,6 +1,11 @@
 package com.cheskii.lesson6;
 
+import com.cheskii.lesson7.CustomLogger;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -8,16 +13,24 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.util.Iterator;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Story("Diary")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DiaryHome2Test {
-    WebDriver driver;
+    EventFiringWebDriver driver;
     WebDriverWait webDriverWait;
 
     @BeforeAll
@@ -27,7 +40,8 @@ public class DiaryHome2Test {
 
     @BeforeEach
     void setUpBrowser() {
-        driver = new ChromeDriver();
+        driver = new EventFiringWebDriver(new ChromeDriver());
+        driver.register(new CustomLogger());
         webDriverWait = new WebDriverWait(driver, 7);
         driver.get("https://diary.ru/");
         login(driver);
@@ -36,6 +50,9 @@ public class DiaryHome2Test {
     @Order(1)
     @ParameterizedTest
     @CsvSource({"test"})
+    @Description("Проверка успешного создания новой записи")
+    @Feature("Записи")
+    @DisplayName("Создание новой записи в дневнике")
     void newEntryPositiveTest(String text){
         new DiaryMainPage(driver).newEntryClick();
         new CreateNewEntryInDiary(driver)
@@ -47,6 +64,9 @@ public class DiaryHome2Test {
 
     @Order(2)
     @Test
+    @Description("Проверка успешного удаления записи")
+    @Feature("Удаление записи")
+    @DisplayName("Удаление созданной записи")
     void deleteTest(){
         new DiaryMainPage(driver).myDiaryClick();
         new DiaryPage(driver)
@@ -57,6 +77,9 @@ public class DiaryHome2Test {
     }
 
     @Test
+    @Description("Проверка невозможности создания новой записи без заполненных полей")
+    @Feature("Записи")
+    @DisplayName("Добавление записи без заполненных полей")
     void newEntryNegativeATest() {
         new DiaryMainPage(driver).newEntryClick();
         new CreateNewEntryInDiary(driver)
@@ -67,6 +90,9 @@ public class DiaryHome2Test {
            }
 
     @Test
+    @Description("Проверка невозможности создания новой записи без заполнения поля 'Сообщение'")
+    @Feature("Записи")
+    @DisplayName("Добавление записи без заполненного поля 'Сообщение'")
     void newEntryNegativeBTest(){
         new DiaryMainPage(driver).newEntryClick();
         new CreateNewEntryInDiary(driver)
@@ -79,6 +105,11 @@ public class DiaryHome2Test {
 
     @AfterEach
     void tearDown() {
+        LogEntries logsBrowser = driver.manage().logs().get(LogType.BROWSER);
+        Iterator<LogEntry> iterator = logsBrowser.iterator();
+        while (iterator.hasNext()){
+            Allure.addAttachment("Лог в консоли браузера", iterator.next().getMessage());
+        }
         driver.quit();
     }
 
